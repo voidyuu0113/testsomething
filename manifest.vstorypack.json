@@ -1,0 +1,155 @@
+{
+  "id": "vstory-editor-demo",
+  "name": "BakeTs",
+  "version": "0.1.0",
+  "runtime": {
+    "portraitCamera": {
+      "visibleHeightRatio": 1.2,
+      "targetCenterX": 0.5,
+      "targetBottomY": 1.2,
+      "minScale": 1.2,
+      "maxScale": 4,
+      "focusTopTrimRatio": 0.04,
+      "focusBottomTrimRatio": 0.22
+    }
+  },
+  "graph": {
+    "entryNodeId": "scene-lobby",
+    "variables": [
+      {
+        "id": "opened_profile",
+        "name": "Opened Profile",
+        "type": "boolean",
+        "initialValue": false,
+        "description": "Tracks whether the visitor reached the profile route."
+      }
+    ],
+    "nodes": {
+      "scene-lobby": {
+        "id": "scene-lobby",
+        "kind": "scene",
+        "backgroundId": "bg-studio-lobby",
+        "next": "intro-line",
+        "actorPlacement": {
+          "position": {
+            "x": 0.5,
+            "y": 0.85
+          },
+          "scale": 0.88
+        }
+      },
+      "intro-line": {
+        "id": "intro-line",
+        "kind": "dialogue",
+        "actorId": "actor-host",
+        "text": "This editor preview uses the same player-core and pixi-player stack as runtime.",
+        "next": "route-choice",
+        "actorPlacement": {
+          "position": {
+            "x": 0.5095,
+            "y": 1.8507
+          },
+          "scale": 2.1827
+        },
+        "clipId": "intro-line-clip",
+        "voiceAudioId": "voice-intro-line-clip",
+        "spriteAnimationId": "intro-line-clip-sprite"
+      },
+      "route-choice": {
+        "id": "route-choice",
+        "kind": "choice",
+        "prompt": "Which route should this electronic card emphasize first?",
+        "options": [
+          {
+            "id": "profile-route",
+            "label": "Lead visitors to the profile card",
+            "next": "set-profile-opened"
+          },
+          {
+            "id": "social-route",
+            "label": "Jump straight to social links",
+            "next": "social-line"
+          }
+        ]
+      },
+      "set-profile-opened": {
+        "id": "set-profile-opened",
+        "kind": "setVariable",
+        "variableId": "opened_profile",
+        "value": true,
+        "next": "profile-line"
+      },
+      "profile-line": {
+        "id": "profile-line",
+        "kind": "dialogue",
+        "actorId": "actor-host",
+        "text": "Good. This route can frame the VTuber first, then guide viewers toward links and featured content.",
+        "next": "finish"
+      },
+      "social-line": {
+        "id": "social-line",
+        "kind": "dialogue",
+        "actorId": "actor-host",
+        "text": "Direct routes still work, but the card should retain a sense of interaction and authored pacing.",
+        "next": "finish"
+      },
+      "finish": {
+        "id": "finish",
+        "kind": "end",
+        "endingId": "editor-demo-end",
+        "title": "Preview complete"
+      }
+    }
+  },
+  "actors": [
+    {
+      "id": "actor-host",
+      "name": "Studio Host",
+      "type": "sprite",
+      "avatar": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20900%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22hair%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%237bdff2%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%234960ff%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22coat%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23101823%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2322324d%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%20%20%3C%2Fdefs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22512%22%20height%3D%22900%22%20rx%3D%2248%22%20fill%3D%22%230d1320%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22256%22%20cy%3D%22180%22%20r%3D%22116%22%20fill%3D%22%23f5d2c4%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M130%20208c12-104%2090-154%20126-154%2080%200%20144%2060%20146%20166-30-24-76-46-148-42-58%204-90%2018-124%2030Z%22%20fill%3D%22url(%23hair)%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M104%20448c18-110%20100-186%20152-186s142%2076%20152%20186v298H104Z%22%20fill%3D%22url(%23coat)%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22188%22%20y%3D%22308%22%20width%3D%22136%22%20height%3D%2230%22%20rx%3D%2215%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%22.24%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22214%22%20cy%3D%22188%22%20r%3D%2210%22%20fill%3D%22%23243249%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22298%22%20cy%3D%22188%22%20r%3D%2210%22%20fill%3D%22%23243249%22%2F%3E%0A%20%20%20%20%20%20%3Cpath%20d%3D%22M222%20244c24%2020%2044%2020%2068%200%22%20fill%3D%22none%22%20stroke%3D%22%23243249%22%20stroke-width%3D%2210%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%20%20%3C%2Fsvg%3E",
+      "sprite": null,
+      "live2d": null,
+      "clips": [
+        {
+          "id": "intro-line-clip",
+          "actorId": "actor-host",
+          "label": "intro-line-clip",
+          "file": "clips/performance/intro-line-clip.json",
+          "audioFile": "assets/audio/dialogue/intro-line_intro-line-clip.webm"
+        }
+      ]
+    }
+  ],
+  "backgrounds": [
+    {
+      "id": "bg-studio-lobby",
+      "name": "Studio Lobby",
+      "imagePath": "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201600%20900%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23081120%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2317253c%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%20%20%20%20%3CradialGradient%20id%3D%22glow%22%20cx%3D%220.52%22%20cy%3D%220.22%22%20r%3D%220.62%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%236fffe9%22%20stop-opacity%3D%22.36%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%236fffe9%22%20stop-opacity%3D%220%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2FradialGradient%3E%0A%20%20%20%20%20%20%3C%2Fdefs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%221600%22%20height%3D%22900%22%20fill%3D%22url(%23bg)%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%221600%22%20height%3D%22900%22%20fill%3D%22url(%23glow)%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22170%22%20y%3D%2290%22%20width%3D%221260%22%20height%3D%22720%22%20rx%3D%2242%22%20fill%3D%22%230f1827%22%20fill-opacity%3D%22.38%22%20stroke%3D%22%2327344d%22%20stroke-width%3D%224%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22250%22%20y%3D%22148%22%20width%3D%221100%22%20height%3D%22150%22%20rx%3D%2228%22%20fill%3D%22%23101d31%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22314%22%20y%3D%22372%22%20width%3D%22968%22%20height%3D%2254%22%20rx%3D%2218%22%20fill%3D%22%231c2a42%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22314%22%20y%3D%22456%22%20width%3D%22876%22%20height%3D%2254%22%20rx%3D%2218%22%20fill%3D%22%231c2a42%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22314%22%20y%3D%22540%22%20width%3D%22916%22%20height%3D%2254%22%20rx%3D%2218%22%20fill%3D%22%231c2a42%22%2F%3E%0A%20%20%20%20%3C%2Fsvg%3E"
+    }
+  ],
+  "audio": [
+    {
+      "id": "voice-intro-line-clip",
+      "name": "intro-line voice",
+      "kind": "voice",
+      "path": "assets/audio/dialogue/intro-line_intro-line-clip.webm",
+      "durationMs": 6989
+    }
+  ],
+  "spriteAnimations": [
+    {
+      "id": "intro-line-clip-sprite",
+      "actorId": "actor-host",
+      "label": "intro-line-clip Sprite Animation",
+      "path": "assets/animations/intro-line-clip/sprite.json",
+      "fps": 60,
+      "frameCount": 438,
+      "anchor": {
+        "x": 0.5,
+        "y": 1
+      },
+      "frames": [],
+      "videoPath": "assets/animations/intro-line-clip/animation.webm"
+    }
+  ]
+}
